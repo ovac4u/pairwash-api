@@ -19,9 +19,8 @@ class CreateUsersTable extends Migration
             $table->string('middle_name')->nullable();
             $table->string('last_name');
             $table->string('email')->unique();
-            $table->string('username')->unique();
             $table->string('password');
-            $table->string('phone');
+            $table->string('phone')->unique();
             $table->string('avatar')->default('/images/profile-picture.png');
             $table->string('address');
             $table->enum('type', ['vendor', 'client'])->default('client');
