@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('password');
             $table->string('address');
-            $table->string('type')->enum(['vendor', 'client'])->default('client');
+            $table->enum('type', ['vendor', 'client'])->default('client');
             $table->string('password');
 
             $table->timestamp('dob');
