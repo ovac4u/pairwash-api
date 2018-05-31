@@ -66,6 +66,24 @@
 
 
                         <div class="form-group row">
+                            <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('I want to:') }}</label>
+
+                            <div class="col-md-6">
+
+                                <label for="provider"><input type="radio" name="type" value="provider" id="provider"> Wash cars for clients</label>
+                                <br>
+                                <label for="client"><input type="radio" name="type" value="client" id="client"> Get someone to wash my car</label>
+
+                                @if ($errors->has('type'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('type') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
                             <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Address') }}</label>
 
                             <div class="col-md-6">

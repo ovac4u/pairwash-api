@@ -23,7 +23,8 @@ class CreateUsersTable extends Migration
             $table->string('phone')->unique();
             $table->string('avatar')->default('/images/profile-picture.png');
             $table->string('address');
-            $table->enum('type', ['vendor', 'client'])->default('client');
+            $table->enum('type', ['provider', 'client']);
+            $table->string('api_token', 60)->unique();
 
             $table->timestamp('dob');
 

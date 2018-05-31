@@ -17,8 +17,25 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'str_random',
+        'first_name',
+        'api_token',
+        'last_name',
+        'password',
+        'address',
+        'email',
+        'phone',
+        'type',
     ];
+
+    /**
+     * Get the full name of the user
+     * @return string Full Name for the user
+     */
+    public function getNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 
     /**
      * The attributes that should be hidden for arrays.
@@ -26,7 +43,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'api_token',
     ];
 
     public function vehicle()
