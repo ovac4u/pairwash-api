@@ -6,6 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Vehicle extends Model
 {
+    protected $fillable = [
+        "brand",
+        "color",
+        "type",
+        "vcn",
+        "vln",
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

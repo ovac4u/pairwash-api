@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Vehicle\DeleteVehicle;
+use App\Http\Requests\Vehicle\StoreVehicle;
+use App\Http\Requests\Vehicle\UpdateVehicle;
 use App\Vehicle;
 use Illuminate\Http\Request;
 
@@ -12,30 +15,25 @@ class VehicleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $vehicle = $request->user()->vehicles()->get();
+
+        return responder()->success(['vehicles' => $vehicle]);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Add a car to the database for the
+     * authenticated user.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreVehicle $request)
     {
-        //
+        $vehicle = $request->user()->vehicles()->create($request->validated());
+
+        return responder()->success(['vehicle' => $vehicle]);
     }
 
     /**
@@ -46,18 +44,7 @@ class VehicleController extends Controller
      */
     public function show(Vehicle $vehicle)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Vehicle  $vehicle
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Vehicle $vehicle)
-    {
-        //
+        return responder()->success(['vehicle' => $vehicle]);
     }
 
     /**
@@ -67,9 +54,11 @@ class VehicleController extends Controller
      * @param  \App\Vehicle  $vehicle
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Vehicle $vehicle)
+    public function update(UpdateVehicle $request, Vehicle $vehicle)
     {
-        //
+        $vehicle->update($request->validated());
+
+        return responder()->success(['vehicle' => $vehicle]);
     }
 
     /**
@@ -78,8 +67,10 @@ class VehicleController extends Controller
      * @param  \App\Vehicle  $vehicle
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Vehicle $vehicle)
+    public function destroy(DeleteVehicle $request, Vehicle $vehicle)
     {
-        //
+        $vehicle->delete();
+
+        return responder()->success(['vehicle' => $vehicle]);
     }
 }

@@ -35,4 +35,6 @@ Route::group(['middleware' => 'auth:api'], function () {
 
         return responder()->success(['user' => request()->user()]);
     });
+
+    Route::resource('vehicles', 'VehicleController');
 });
