@@ -37,4 +37,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     });
 
     Route::resource('vehicles', 'VehicleController');
+
+    Route::resource('bookings', 'BookingController');
 });

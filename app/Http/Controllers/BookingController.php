@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Booking;
+use App\Http\Requests\Booking\DeleteBooking;
+use App\Http\Requests\Booking\StoreBooking;
+use App\Http\Requests\Booking\UpdateBooking;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -12,19 +15,11 @@ class BookingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
+        $bookings = $request->user()->bookings()->get();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return responder()->success(['bookings' => $bookings]);
     }
 
     /**
@@ -33,9 +28,15 @@ class BookingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreBooking $request)
     {
-        //
+        $booking = $request->user()->bookings()->make($request->validated());
+
+        $booking->vehicle()->associate($request->input('vehicle_id'));
+
+        $booking->save();
+
+        return responder()->success(['booking' => $booking]);
     }
 
     /**
@@ -46,18 +47,7 @@ class BookingController extends Controller
      */
     public function show(Booking $booking)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Booking  $booking
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Booking $booking)
-    {
-        //
+        return responder()->success(['booking' => $booking]);
     }
 
     /**
@@ -67,9 +57,11 @@ class BookingController extends Controller
      * @param  \App\Booking  $booking
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Booking $booking)
+    public function update(UpdateBooking $request, Booking $booking)
     {
-        //
+        $booking->update($request->validated());
+
+        return responder()->success(['booking' => $booking]);
     }
 
     /**
@@ -78,8 +70,10 @@ class BookingController extends Controller
      * @param  \App\Booking  $booking
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Booking $booking)
+    public function destroy(DeleteBooking $request, Booking $booking)
     {
-        //
+        $booking->delete();
+
+        return responder()->success(['booking' => $booking]);
     }
 }

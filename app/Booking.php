@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Booking extends Model
 {
+    protected $fillable = [
+        'note',
+        'location',
+    ];
+
     public function vehicle()
     {
         return $this->belongsTo(Vehicle::class);
