@@ -21,9 +21,7 @@ class CreateVehiclesTable extends Migration
 
             $table->string('color');
 
-            $table->string('user_id');
-
-            $table->integer('category_id');
+            $table->integer('user_id');
 
             $table->string('vcn')->unique()->comment(
                 'This represents the Vehincle Chasis Number'
@@ -33,7 +31,7 @@ class CreateVehiclesTable extends Migration
                 'This represents the Vehincle License Number'
             );
 
-            $table->enum('types', [
+            $table->enum('type', [
                 'suv',
                 'wagon',
                 'saloon',
