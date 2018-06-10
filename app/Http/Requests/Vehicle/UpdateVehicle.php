@@ -26,9 +26,9 @@ class UpdateVehicle extends FormRequest
         return [
             'brand' => 'string|min:3|max:30',
             'color' => 'string|min:3|max:30',
-            'vln' => 'string|min:2|max:20|unique:vehicles',
-            'vcn' => 'string|min:10|max:50|unique:vehicles',
             'type' => 'string|min:3|max:30|in:suv,wagon,saloon,scooter,trailer,motorcycle',
+            'vln' => 'string|min:2|max:20|unique:vehicles,vln,' . $this->route()->parameter('vehicle')->id,
+            'vcn' => 'string|min:10|max:50|unique:vehicles,vcn,' . $this->route()->parameter('vehicle')->id,
         ];
     }
 }

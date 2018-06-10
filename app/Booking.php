@@ -9,6 +9,8 @@ class Booking extends Model
     protected $fillable = [
         'note',
         'location',
+        'accepted',
+        'finished',
     ];
 
     public function vehicle()
@@ -21,8 +23,8 @@ class Booking extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function vendor()
+    public function provider()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsTo(User::class, 'accepted');
     }
 }

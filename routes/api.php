@@ -38,5 +38,20 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::resource('vehicles', 'VehicleController');
 
-    Route::resource('bookings', 'BookingController');
+    // Bookings
+    //
+    Route::group([], function () {
+
+        Route::get('bookings/open', 'BookingController@openBookings');
+
+        Route::get('bookings/accepted', 'BookingController@acceptedBooking');
+
+        Route::get('bookings/finished', 'BookingController@finishedBookings');
+
+        Route::post('bookings/accepted/{booking}', 'BookingController@acceptBooking');
+
+        Route::patch('bookings/accepted/{booking}', 'BookingController@finishBooking');
+
+        Route::resource('bookings', 'BookingController');
+    });
 });

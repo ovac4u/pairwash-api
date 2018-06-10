@@ -4,7 +4,7 @@ namespace App\Http\Requests\Booking;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreBooking extends FormRequest
+class FinishBooking extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,24 +24,23 @@ class StoreBooking extends FormRequest
     public function rules()
     {
         return [
-            'vehicle_id' => [
-                'required',
-                'numeric',
-                'exists:vehicles,id,user_id,' . $this->user()->id,
+            'booking_id' => [
 
                 function ($attribute, $value, $fail) {
 
                     return
+
                     (
-                        $this->user()->vehicles()->where('id', $this->input('vehicle_id'))->count() &&
-                        !$this->user()->bookings()->where(['finished' => false, 'vehicle_id' => $this->input('vehicle_id')])->count()
+                        $this->user()->type == 'vendor' &&
+
+                        $this->user()->has('acceptedBookings', function ($query) {
+                            $query->where('booking_id', $this->route()->parameter('booking')->id);
+                        })->count()
                     )
 
-                    ?: $fail('You already requested to wash this car.');
+                    ?: $fail('You cannot finish a booking you never started.');
                 },
             ],
-            'note' => 'required|string|min:25|max:250',
-            'location' => 'required|string',
         ];
     }
 }

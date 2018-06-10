@@ -11,6 +11,8 @@ class User extends Authenticatable
 
     protected $dates = ['dob'];
 
+    protected $appends = ['name'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -34,7 +36,12 @@ class User extends Authenticatable
      */
     public function getNameAttribute()
     {
-        return $this->first_name . ' ' . $this->last_name;
+        return mb_convert_case(
+            //
+            str_replace('  ', ' ', $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name),
+            //
+            MB_CASE_TITLE
+        );
     }
 
     /**
@@ -54,5 +61,10 @@ class User extends Authenticatable
     public function bookings()
     {
         return $this->hasMany(Booking::class);
+    }
+
+    public function acceptedBookings()
+    {
+        return $this->hasMany(Booking::class, 'accepted');
     }
 }
